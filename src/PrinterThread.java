@@ -1,22 +1,39 @@
 public class PrinterThread implements Runnable {
 	private Thread t;
+	private static Bag myBag;
 	private String threadName;
 
 	public void run() {
 		System.out.println("Running " +  threadName );
-		try {
-			for(int i = 4; i > 0; i--) {
-				System.out.println("Thread: " + threadName + ", " + i);
-				// Let the thread sleep for a while.
-				Thread.sleep(500);
-			}
-		} catch (InterruptedException e) {
-			System.out.println("Thread " +  threadName + " interrupted.");
+
+		System.out.println(threadName + " adding this: " + threadName + "foo");
+		myBag.add(threadName + "foo");
+		System.out.println(threadName + " added this: " + threadName + "foo");
+		
+		System.out.println(threadName + " adding this: " + threadName + "bar");
+		myBag.add(threadName + "bar");
+		System.out.println(threadName + " added this: " + threadName + "bar");
+		
+		String[] strs = myBag.getAll();
+		System.out.println("Current values in bag according to " + threadName + ":");
+		for(int i = 0; i < strs.length; i++){
+			System.out.println(strs[i]);
 		}
+		
+		System.out.println(threadName + " removing this: " + threadName + "foo");
+		myBag.remove(threadName + "foo");
+		System.out.println(threadName + " removed this: " + threadName + "foo");
+		
+		strs = myBag.getAll();
+		System.out.println("Current values in bag according to " + threadName + ":");
+		for(int i = 0; i < strs.length; i++){
+			System.out.println(strs[i]);
+		}
+		
 		System.out.println("Thread " +  threadName + " exiting.");
 	}
 
-	public void start ()
+	public void start()
 	{
 		System.out.println("Starting " +  threadName );
 		if(t == null)
@@ -29,8 +46,9 @@ public class PrinterThread implements Runnable {
 		}
 	}
 
-	public PrinterThread(String name) {
+	public PrinterThread(String name, Bag b){
 		threadName = name;
+		myBag = b;
 		System.out.println("Creating " +  threadName );
 	}
 }
