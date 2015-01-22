@@ -2,8 +2,7 @@
 public class ThreadTest {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		PrinterThread first = new PrinterThread("first thread");
+		first.start();
 	}
-
 }
